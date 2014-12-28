@@ -1,14 +1,13 @@
 (ns xalbum.core.handler-test
   (:require [clojure.test :refer :all]
+            [kerodon.core :refer :all]
+            [kerodon.test :refer :all]
             [ring.mock.request :as mock]
             [xalbum.core.handler :refer :all]))
 
-(deftest test-app
-  (testing "main route"
-    (let [response (app (mock/request :get "/"))]
-      (is (= (:status response) 200))
-      (is (= (:body response) "Hello World"))))
-
-  (testing "not-found route"
-    (let [response (app (mock/request :get "/invalid"))]
-      (is (= (:status response) 404)))))
+(deftest test-homepage
+  (-> (session app)
+      (visit "/")
+      (has (status? 200))
+      (within [:h1]
+              (has (text? "Welcome to xalbum")))))
