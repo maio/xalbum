@@ -3,13 +3,9 @@
             [clojure.java.io :as io]
             [xalbum.core.data :refer :all]))
 
-(defn local-storage [root]
-  {:type :local
-   :root root})
-
 (deftest test-data
   (let [storage (local-storage (io/file (io/resource "test-albums")))]
     (is (= (get-albums storage)
-           [{:name "albumA"}
-            {:name "albumB"}
-            {:name "albumC"}]))))
+           [{:name "albumA" :teaser-url "/album/albumA/teaser.jpg"}
+            {:name "albumB" :teaser-url "/album/albumB/teaser.jpg"}
+            {:name "albumC" :teaser-url "/album/albumC/teaser.jpg"}]))))

@@ -11,6 +11,6 @@
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring-mock "0.1.5"]
-                        [kerodon "0.5.0"]]
+                        [kerodon "0.6.0-SNAPSHOT"]]
          :plugins [[quickie "0.3.6"]]
          :resource-paths ["resources" "test-resources"]}})

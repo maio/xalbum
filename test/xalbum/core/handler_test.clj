@@ -9,5 +9,7 @@
   (-> (session app)
       (visit "/")
       (has (status? 200))
-      (within [:h1]
-              (has (text? "Welcome to xalbum")))))
+      (has (heading? "Welcome to xalbum"))
+      (has (heading? "albumA"))
+      (has (heading? "albumB"))
+      (has (heading? "albumC"))))
