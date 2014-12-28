@@ -5,7 +5,7 @@
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [compojure "1.3.1"]
                  [ring/ring-defaults "0.1.3"]
-                 [hiccup "1.0.5"]]
+                 [enlive "1.1.5"]]
   :plugins [[lein-ring "0.8.13"]]
   :ring {:handler xalbum.core.handler/app}
   :profiles

@@ -2,19 +2,20 @@
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
-            [hiccup.core :refer [html]]
+            [net.cgrand.enlive-html :as html]
             [clojure.java.io :as io]
             [xalbum.core.data :as data]))
 
-(defn render-album [album]
-  [:h1 (:name album)])
+(html/deftemplate main-template "templates/main.html"
+  [albums]
+  [:div.album] (html/clone-for [album albums]
+                               [:h2] (html/content (:name album))
+                               [:img] (html/set-attr :src (:teaser-url album))))
 
 (defn render-main []
   (let [storage (data/local-storage (io/file (io/resource "test-albums")))
         albums (data/get-albums storage)]
-    (html [:body
-           [:h1 "Welcome to xalbum"]
-           (map render-album albums)])))
+    (main-template albums)))
 
 (defroutes app-routes
   (GET "/" [] (render-main))
