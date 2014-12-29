@@ -30,23 +30,20 @@
 (defn render-teaser [album-id]
   (resource-response (format "test-albums/%s/teaser.jpg" album-id)))
 
-(defn render-album [album-id]
-  (let [storage (data/local-storage (io/file (io/resource "test-albums")))
-        photos (data/get-album-photos storage album-id)]
-    (album-template album-id photos)))
+(defn render-album [storage album-id]
+  (album-template album-id (data/get-album-photos storage album-id)))
 
-(defn render-main []
-  (let [storage (data/local-storage (io/file (io/resource "test-albums")))
-        albums (data/get-albums storage)]
-    (main-template albums)))
+(defn render-main [storage]
+  (main-template (data/get-albums storage)))
 
-(defroutes app-routes
-  (GET "/" [] (render-main))
-  (GET "/album/:album-id" [album-id] (render-album album-id))
+(let [storage (data/local-storage (io/file (io/resource "test-albums")))]
+  (defroutes app-routes
+    (GET "/" [] (render-main storage))
+    (GET "/album/:album-id" [album-id] (render-album storage album-id))
 
-  (GET "/album/:album-id/teaser.jpg" [album-id] (render-teaser album-id))
-  (GET "/album/:album-id/:photo-filename" [album-id photo-filename] (render-photo album-id photo-filename))
-  (route/not-found "Not Found"))
+    (GET "/album/:album-id/teaser.jpg" [album-id] (render-teaser album-id))
+    (GET "/album/:album-id/:photo-filename" [album-id photo-filename] (render-photo album-id photo-filename))
+    (route/not-found "Not Found")))
 
 (def app
   (wrap-defaults app-routes site-defaults))
