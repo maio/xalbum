@@ -13,3 +13,15 @@
       (has (heading? "albumA"))
       (has (heading? "albumB"))
       (has (heading? "albumC"))))
+
+(deftest test-album
+  (-> (session app)
+      (visit "/album/albumA")
+      (has (status? 200))
+      (has (heading? "albumA"))))
+
+(deftest test-album-b
+  (-> (session app)
+      (visit "/album/albumB")
+      (has (status? 200))
+      (has (heading? "albumB"))))
