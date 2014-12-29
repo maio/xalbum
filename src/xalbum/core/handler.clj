@@ -20,9 +20,9 @@
   [album-id photos]
   [:title] (html/content (format "%s - xalbum" album-id))
   [:h1] (html/content album-id)
-  [:img.thumbnail] (html/clone-for [photo photos]
-                                   [:img] (html/set-attr :src (:url photo))
-                                   [:img] (html/set-attr :height 150)))
+  [:a.thumbnail] (html/clone-for [photo photos]
+                                 [:a] (html/set-attr :href (:url photo))
+                                 [:img] (html/set-attr :src (:url photo))))
 
 (defn render-photo [album-id photo-filename]
   (resource-response (format "test-albums/%s/%s" album-id photo-filename)))
