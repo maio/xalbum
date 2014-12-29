@@ -8,6 +8,7 @@
                  [enlive "1.1.5"]]
   :plugins [[lein-ring "0.8.13"]]
   :ring {:handler xalbum.core.handler/app}
+  :java-source-paths ["vendor"]
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring-mock "0.1.5"]

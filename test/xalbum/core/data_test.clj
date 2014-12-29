@@ -6,6 +6,7 @@
 ;; test-albums/
 ;; ├── albumA
 ;; │   ├── 1.jpg
+;; │   ├── 2.jpg
 ;; │   ├── 19.jpg
 ;; │   ├── 21.jpg
 ;; │   └── teaser.jpg
@@ -25,5 +26,6 @@
   (let [storage (local-storage (io/file (io/resource "test-albums")))]
     (is (= (get-album-photos storage "albumA")
            [{:url "/album/albumA/1.jpg"}
+            {:url "/album/albumA/2.jpg"}
             {:url "/album/albumA/19.jpg"}
             {:url "/album/albumA/21.jpg"}]))))

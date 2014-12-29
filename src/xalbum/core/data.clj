@@ -1,5 +1,6 @@
 (ns xalbum.core.data
-  (:require [clojure.java.io :as io]))
+  (:require [clojure.java.io :as io])
+  (:import NaturalOrderComparator))
 
 (defn local-storage [root]
   {:type :local
@@ -21,5 +22,6 @@
 
 (defn get-album-photos [storage album-id]
   (let [album-dir (io/file (:root storage) album-id)]
-    (for [photo-file (filter is-photo-file? (.listFiles album-dir))]
+    (for [photo-file (sort (NaturalOrderComparator.)
+                           (filter is-photo-file? (.listFiles album-dir)))]
       {:url (format "/album/%s/%s" album-id (.getName photo-file))})))
