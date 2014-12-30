@@ -11,17 +11,14 @@
       (has (status? 200))
       (has (heading? "Welcome to xalbum"))
       (has (heading? "albumA"))
+      (has (link? "" "/album/albumA"))
       (has (heading? "albumB"))
-      (has (heading? "albumC"))))
+      (has (link? "" "/album/albumB"))
+      (has (heading? "albumC"))
+      (has (link? "" "/album/albumC"))))
 
 (deftest test-album
   (-> (session app)
       (visit "/album/albumA")
       (has (status? 200))
       (has (heading? "albumA"))))
-
-(deftest test-album-b
-  (-> (session app)
-      (visit "/album/albumB")
-      (has (status? 200))
-      (has (heading? "albumB"))))

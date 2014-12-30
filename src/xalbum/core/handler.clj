@@ -14,6 +14,7 @@
   [albums]
   [:div.album] (html/clone-for [album albums]
                                [:h2] (html/content (:name album))
+                               [:a] (html/set-attr :href (:url album))
                                [:img] (html/set-attr :src (:teaser-url album))))
 
 (html/deftemplate album-template "templates/album.html"

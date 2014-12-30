@@ -10,6 +10,7 @@
   (for [album-dir (.listFiles (:root storage))]
     (let [name (.getName album-dir)]
       {:name name
+       :url (format "/album/%s" name)
        :teaser-url (format "/album/%s/teaser.jpg" name)})))
 
 (defn is-photo-file? [file]
