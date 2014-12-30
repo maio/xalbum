@@ -6,8 +6,11 @@
   {:type :local
    :root root})
 
+(defn is-album-dir? [dir]
+  (not (= (.getName dir) ".DS_Store")))
+
 (defn get-albums [storage]
-  (for [album-dir (.listFiles (:root storage))]
+  (for [album-dir (filter is-album-dir? (.listFiles (:root storage)))]
     (let [name (.getName album-dir)]
       {:name name
        :url (format "/album/%s" name)
