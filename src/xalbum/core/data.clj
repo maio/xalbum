@@ -29,3 +29,10 @@
     (for [photo-file (sort (NaturalOrderComparator.)
                            (filter is-photo-file? (.listFiles album-dir)))]
       {:url (format "/album/%s/%s" album-id (.getName photo-file))})))
+
+(defn get-teaser-location [storage album-id]
+  (io/file (:root storage) album-id "teaser.jpg"))
+
+(defn get-photo-location [storage album-id photo-filename]
+  (io/file (:root storage) album-id photo-filename))
+

@@ -22,3 +22,8 @@
       (visit "/album/albumA")
       (has (status? 200))
       (has (heading? "albumA"))))
+
+(deftest test-photo
+  (-> (session app)
+      (visit "/album/albumA/1.jpg")
+      (has (status? 200))))

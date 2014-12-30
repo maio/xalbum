@@ -7,8 +7,8 @@
             [clojure.java.io :as io]
             [xalbum.core.data :as data]))
 
-(defn resource-response [path]
-  (response/file-response (.getPath (io/file (io/resource path)))))
+(defn file-response [file]
+  (response/file-response (.getPath file)))
 
 (html/deftemplate main-template "templates/main.html"
   [albums]
@@ -25,11 +25,11 @@
                                  [:a] (html/set-attr :href (:url photo))
                                  [:img] (html/set-attr :src (:url photo))))
 
-(defn render-photo [album-id photo-filename]
-  (resource-response (format "test-albums/%s/%s" album-id photo-filename)))
+(defn render-photo [photo-file]
+  (file-response photo-file))
 
-(defn render-teaser [album-id]
-  (resource-response (format "test-albums/%s/teaser.jpg" album-id)))
+(defn render-teaser [teaser-file]
+  (file-response teaser-file))
 
 (defn render-album [storage album-id]
   (album-template album-id (data/get-album-photos storage album-id)))
@@ -37,13 +37,17 @@
 (defn render-main [storage]
   (main-template (data/get-albums storage)))
 
-(let [storage (data/local-storage (io/file (io/resource "test-albums")))]
+(def root (io/file (or (System/getenv "XALBUM_ROOT") (io/resource "test-albums"))))
+
+(let [storage (data/local-storage root)]
   (defroutes app-routes
     (GET "/" [] (render-main storage))
     (GET "/album/:album-id" [album-id] (render-album storage album-id))
 
-    (GET "/album/:album-id/teaser.jpg" [album-id] (render-teaser album-id))
-    (GET "/album/:album-id/:photo-filename" [album-id photo-filename] (render-photo album-id photo-filename))
+    (GET "/album/:album-id/teaser.jpg" [album-id]
+         (render-teaser (data/get-teaser-location storage album-id)))
+    (GET "/album/:album-id/:photo-filename" [album-id photo-filename]
+         (render-photo (data/get-photo-location storage album-id photo-filename)))
     (route/not-found "Not Found")))
 
 (def app
