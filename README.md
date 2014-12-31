@@ -1,19 +1,14 @@
 # xalbum
 
-FIXME
-
-## Prerequisites
-
-You will need [Leiningen][] 2.0.0 or above installed.
-
-[leiningen]: https://github.com/technomancy/leiningen
+photo gallery
 
 ## Running
 
-To start a web server for the application, run:
-
     lein ring server
+
+Note: You probably shouldn't run this code on public URL as it might not be
+secure (yet).
 
 ## License
 
-Copyright © 2014 FIXME
+Copyright © 2014 Marian Schubert
