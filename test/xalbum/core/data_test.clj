@@ -4,6 +4,7 @@
             [xalbum.core.data :refer :all]))
 
 (def root (io/file (io/resource "test-albums")))
+
 ;; test-albums/
 ;; ├── albumA
 ;; │   ├── 1.jpg
@@ -24,10 +25,10 @@
 
 (deftest test-get-album-photos
   (is (= (get-album-photos (local-storage root) "albumA")
-         [{:url "/album/albumA/1.jpg"}
-          {:url "/album/albumA/2.jpg"}
-          {:url "/album/albumA/19.jpg"}
-          {:url "/album/albumA/21.jpg"}])))
+         [{:url "/album/albumA/1.jpg" :thumb-url "/album/albumA/thumb/1.jpg"}
+          {:url "/album/albumA/2.jpg" :thumb-url "/album/albumA/thumb/2.jpg"}
+          {:url "/album/albumA/19.jpg" :thumb-url "/album/albumA/thumb/19.jpg"}
+          {:url "/album/albumA/21.jpg" :thumb-url "/album/albumA/thumb/21.jpg"}])))
 
 (deftest test-get-photo-location
   (is (= (get-photo-location (local-storage root) "albumA" "1.jpg")

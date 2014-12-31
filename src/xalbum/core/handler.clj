@@ -5,7 +5,8 @@
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [net.cgrand.enlive-html :as html]
             [clojure.java.io :as io]
-            [xalbum.core.data :as data]))
+            [xalbum.core.data :as data]
+            [xalbum.core.photo :as photo]))
 
 (defn file-response [file]
   (response/file-response (.getPath file)))
@@ -23,10 +24,13 @@
   [:h1] (html/content album-id)
   [:a.thumbnail] (html/clone-for [photo photos]
                                  [:a] (html/set-attr :href (:url photo))
-                                 [:img] (html/set-attr :src (:url photo))))
+                                 [:img] (html/set-attr :src (:thumb-url photo))))
 
 (defn render-photo [photo-file]
   (file-response photo-file))
+
+(defn render-photo-thumb [photo-file]
+  (file-response (photo/resize-to-fit photo-file {:width nil :height 150})))
 
 (defn render-teaser [teaser-file]
   (file-response teaser-file))
@@ -42,12 +46,16 @@
 (let [storage (data/local-storage root)]
   (defroutes app-routes
     (GET "/" [] (render-main storage))
-    (GET "/album/:album-id" [album-id] (render-album storage album-id))
 
+    (GET "/album/:album-id" [album-id] (render-album storage album-id))
     (GET "/album/:album-id/teaser.jpg" [album-id]
          (render-teaser (data/get-teaser-location storage album-id)))
     (GET "/album/:album-id/:photo-filename" [album-id photo-filename]
          (render-photo (data/get-photo-location storage album-id photo-filename)))
+    (photo/wrap-cache-forever
+     (GET "/album/:album-id/thumb/:photo-filename" [album-id photo-filename]
+          (render-photo-thumb (data/get-photo-location storage album-id photo-filename))))
+
     (route/not-found "Not Found")))
 
 (def app
