@@ -39,6 +39,7 @@
         resized (io/file photo-temp (format "%s.jpg" resized-hash))]
     ;; TODO: strip useless EXIF fields
     ;;       keep some useful ones (e.g. aperture) + color profile setting
-    (sh "convert" "-auto-orient" "-quality" "80"
-        "-resize" geometry (str src) (str resized))
+    (when-not (.exists resized)
+      (sh "convert" "-auto-orient" "-quality" "80"
+          "-resize" geometry (str src) (str resized)))
     resized))
