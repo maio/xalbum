@@ -6,10 +6,22 @@
         <link rel="stylesheet" href="/css/xalbum.css" type="text/css" media="screen" />
         <link rel="stylesheet" href="/css/lightbox.css" type="text/css" media="screen" />
         <script src="/js/jquery-1.11.2.min.js"></script>
-	    <script src="/js/lightbox.min.js"></script>
+
+        <link rel="stylesheet" href="/justifiedGallery//justifiedGallery.min.css" />
+        <script src="/justifiedGallery/jquery.justifiedGallery.min.js"></script>
     </head>
     <body>
         <h1>album name</h1>
-        <a href="https://placekitten.com/1200/900" class="thumbnail" data-lightbox="photos"><img src="https://placekitten.com/1200/900" height="150"/></a>
+        <div id="gallery">
+            <a href="https://placekitten.com/1200/900" class="thumbnail" data-lightbox="photos"><img src="https://placekitten.com/1200/900"/></a>
+        </div>
     </body>
+    <script>
+     $("#gallery").justifiedGallery({
+         rowHeight : 150,
+         lastRow : 'nojustify',
+         margins : 3
+     });
+    </script>
+	<script src="/js/lightbox.min.js"></script>
 </html>
