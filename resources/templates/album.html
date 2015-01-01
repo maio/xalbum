@@ -4,17 +4,19 @@
     <head>
         <title>xalbum</title>
         <link rel="stylesheet" href="/css/xalbum.css" type="text/css" media="screen" />
-        <link rel="stylesheet" href="/css/lightbox.css" type="text/css" media="screen" />
         <script src="/js/jquery-1.11.2.min.js"></script>
 
         <link rel="stylesheet" href="/justifiedGallery//justifiedGallery.min.css" />
         <script src="/justifiedGallery/jquery.justifiedGallery.min.js"></script>
+
+        <link rel="stylesheet" href="/swipebox/css/swipebox.min.css">
+        <script src="/swipebox/js/jquery.swipebox.min.js"></script>
     </head>
     <body>
         <h1>album name</h1>
         <hr/>
         <div id="gallery">
-            <a href="https://placekitten.com/1200/900" class="thumbnail" data-lightbox="photos"><img src="https://placekitten.com/1200/900"/></a>
+            <a href="https://placekitten.com/1200/900" class="thumbnail"><img src="https://placekitten.com/1200/900"/></a>
         </div>
     </body>
     <script>
@@ -22,7 +24,11 @@
          rowHeight : 150,
          lastRow : 'nojustify',
          margins : 3
+     }).on('jg.complete', function () {
+         $('#gallery a').swipebox({
+             loopAtEnd: true,
+             hideCloseButtonOnMobile : true
+         });
      });
     </script>
-	<script src="/js/lightbox.min.js"></script>
 </html>
