@@ -40,6 +40,6 @@
     ;; TODO: strip useless EXIF fields
     ;;       keep some useful ones (e.g. aperture) + color profile setting
     (when-not (.exists resized)
-      (sh "convert" "-auto-orient" "-quality" "80"
+      (sh "convert" "-auto-orient" "-quality" "75"
           "-resize" geometry (str src) (str resized)))
     resized))
