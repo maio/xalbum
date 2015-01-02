@@ -21,9 +21,10 @@
     </body>
     <script>
      $("#gallery").justifiedGallery({
-         rowHeight : 150,
+         rowHeight : 250,
+         maxRowHeight : 300,
          lastRow : 'nojustify',
-         margins : 3
+         margins : 10
      }).on('jg.complete', function () {
          $('#gallery a').swipebox({
              loopAtEnd: true,

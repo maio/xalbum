@@ -30,7 +30,7 @@
   (file-response photo-file))
 
 (defn render-photo-thumb [photo-file]
-  (file-response (photo/resize-to-fit photo-file {:width nil :height 150})))
+  (file-response (photo/resize-to-fit photo-file {:width nil :height 300})))
 
 (defn render-teaser [teaser-file]
   (file-response teaser-file))

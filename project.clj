@@ -1,4 +1,4 @@
-(defproject xalbum "0.3.0-SNAPSHOT"
+(defproject xalbum "0.4.0-SNAPSHOT"
   :description "photo gallery"
   :url "http://example.com/FIXME"
   :min-lein-version "2.0.0"
