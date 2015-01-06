@@ -35,5 +35,10 @@
 (defn get-photo-location [storage album-id photo-filename]
   (io/file (:root storage) album-id photo-filename))
 
+(defn create-album
+  "Creates album."
+  [storage album-name]
+  (io/make-parents (io/file (:root storage) album-name "whatever")))
+
 (defn local-storage [root]
   {:root root})
