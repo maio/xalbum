@@ -7,4 +7,7 @@ run:
 	lein ring server
 
 test:
+	lein test
+
+autotest:
 	lein quickie
