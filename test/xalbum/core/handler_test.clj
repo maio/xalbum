@@ -2,8 +2,7 @@
   (:require [clojure.test :refer :all]
             [kerodon.core :refer :all]
             [kerodon.test :refer :all]
-            [ring.mock.request :as mock]
-            [xalbum.core.handler :refer :all]
+            [xalbum.core.handler :refer [build-app]]
             [xalbum.core.data :as data]
             [clojure.java.io :as io]))
 
