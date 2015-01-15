@@ -41,9 +41,7 @@
 (defn render-main [storage]
   (main-template (data/get-albums storage)))
 
-(def root (io/file (or (System/getenv "XALBUM_ROOT") (io/resource "test-albums"))))
-
-(let [storage (data/local-storage root)]
+(defn build-app [storage]
   (defroutes app-routes
     (GET "/" [] (render-main storage))
 
@@ -56,7 +54,10 @@
      (GET "/album/:album-id/thumb/:photo-filename" [album-id photo-filename]
           (render-photo-thumb (data/get-photo-location storage album-id photo-filename))))
 
-    (route/not-found "Not Found")))
+    (route/not-found "Not Found"))
+  (wrap-defaults app-routes site-defaults))
+
+(def root (io/file (or (System/getenv "XALBUM_ROOT") (io/resource "test-albums"))))
 
 (def app
-  (wrap-defaults app-routes site-defaults))
+  (build-app (data/local-storage root)))
