@@ -34,12 +34,10 @@
   (str width "x" height ">"))
 
 (defn resize-to-fit [src size]
-  (let [geometry (fit-geometry size)
-        resized-hash (md5 (format "%s/%s" (.getAbsolutePath src) geometry))
-        resized (io/file photo-temp (format "%s.jpg" resized-hash))]
+  (let [resized (io/file photo-temp (format "%s.jpg" (md5 (str src (sort size)))))]
     ;; TODO: strip useless EXIF fields
     ;;       keep some useful ones (e.g. aperture) + color profile setting
     (when-not (.exists resized)
       (sh "convert" "-auto-orient" "-quality" "75"
-          "-resize" geometry (str src) (str resized)))
+          "-resize" (fit-geometry size) (str src) (str resized)))
     resized))
