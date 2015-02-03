@@ -25,10 +25,10 @@
 
 (defn get-albums [storage]
   (for [album-dir (natural-sort (filter is-album-dir? (.listFiles (:root storage))))]
-    (let [name (.getName album-dir)]
-      {:name name
-       :url (format "/album/%s" name)
-       :teaser-url (format "/album/%s/teaser.jpg" name)})))
+    (let [id (.getName album-dir)]
+      {:name id  ;; for local storage album name is it's id (dir name)
+       :url (format "/album/%s" id)
+       :teaser-url (format "/album/%s/teaser.jpg" id)})))
 
 (defn get-teaser-location [storage album-id]
   (io/file (:root storage) album-id "teaser.jpg"))

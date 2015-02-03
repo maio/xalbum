@@ -1,16 +1,12 @@
 (ns xalbum.core.photo
   (:require [tempfile.core :refer [tempdir]]
-            [ring.util.response :refer [header status file-response]]
-            [compojure.core :refer [defroutes context GET]]
+            [ring.util.response :refer [header status]]
             [clojure.java.shell :refer [sh]]
             [digest :refer [md5]]
             [clojure.java.io :as io]))
 
 ;; store resized photos here
 (def photo-temp (tempdir))
-
-;; cache photos forever
-(def cache-control "max-age=31556926, public")
 
 ;; http://www.mnot.net/cache_docs/
 (defn wrap-cache-forever
@@ -28,15 +24,15 @@
             (headers "if-none-match"))
       (status {} 304)
       (when-let [res (handler req)]
-        (header res "Cache-Control" cache-control)))))
+        (header res "Cache-Control" "max-age=31556926, public")))))
 
-(defn fit-geometry [{width :width height :height}]
+(defn fit-geometry
+  "Imagick fit geometry."
+  [{width :width height :height}]
   (str width "x" height ">"))
 
 (defn resize-to-fit [src size]
   (let [resized (io/file photo-temp (format "%s.jpg" (md5 (str src (sort size)))))]
-    ;; TODO: strip useless EXIF fields
-    ;;       keep some useful ones (e.g. aperture) + color profile setting
     (when-not (.exists resized)
       (sh "convert" "-auto-orient" "-quality" "75"
           "-resize" (fit-geometry size) (str src) (str resized)))

@@ -11,20 +11,20 @@
 (defn file-response [file]
   (response/file-response (.getPath file)))
 
+(html/deftemplate album-template "templates/album.html"
+  [album-name photos]
+  [:title] (html/content (format "%s - xalbum" album-name))
+  [:h1] (html/content album-name)
+  [:a.thumbnail] (html/clone-for [photo photos]
+                                 [:a] (html/set-attr :href (:url photo))
+                                 [:img] (html/set-attr :src (:thumb-url photo))))
+
 (html/deftemplate main-template "templates/main.html"
   [albums]
   [:div.album] (html/clone-for [album albums]
                                [:h2] (html/content (:name album))
                                [:a] (html/set-attr :href (:url album))
                                [:img] (html/set-attr :src (:teaser-url album))))
-
-(html/deftemplate album-template "templates/album.html"
-  [album-id photos]
-  [:title] (html/content (format "%s - xalbum" album-id))
-  [:h1] (html/content album-id)
-  [:a.thumbnail] (html/clone-for [photo photos]
-                                 [:a] (html/set-attr :href (:url photo))
-                                 [:img] (html/set-attr :src (:thumb-url photo))))
 
 (defn render-photo [photo-file]
   (file-response photo-file))
@@ -50,6 +50,7 @@
          (render-teaser (data/get-teaser-location storage album-id)))
     (GET "/album/:album-id/:photo-filename" [album-id photo-filename]
          (render-photo (data/get-photo-location storage album-id photo-filename)))
+    ;; cache generated thumbs forever on client & proxy
     (photo/wrap-cache-forever
      (GET "/album/:album-id/thumb/:photo-filename" [album-id photo-filename]
           (render-photo-thumb (data/get-photo-location storage album-id photo-filename))))
@@ -57,7 +58,8 @@
     (route/not-found "Not Found"))
   (wrap-defaults app-routes site-defaults))
 
-(def root (io/file (or (System/getenv "XALBUM_ROOT") (io/resource "test-albums"))))
+(def root (io/file (or (System/getenv "XALBUM_ROOT")
+                       (io/resource "test-albums"))))
 
 (def app
   (build-app (data/local-storage root)))
