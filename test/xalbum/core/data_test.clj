@@ -20,9 +20,9 @@
 (deftest test-get-photo-location
   (let [s (temp-storage)]
     (is (= (get-photo-location s "albumA" "1.jpg")
-           (io/file (:root s) "albumA" "1.jpg")))))
+           (io/file s "albumA" "1.jpg")))))
 
 (deftest test-get-teaser-location
   (let [s (temp-storage)]
     (is (= (get-teaser-location s "albumA")
-           (io/file (:root s) "albumA" "teaser.jpg")))))
+           (io/file s "albumA" "teaser.jpg")))))

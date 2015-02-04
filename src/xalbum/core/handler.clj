@@ -45,8 +45,8 @@
     (route/not-found "Not Found"))
   (wrap-defaults app-routes site-defaults))
 
-(def root (io/file (or (System/getenv "XALBUM_ROOT")
-                       (io/resource "test-albums"))))
+(def storage (io/file (or (System/getenv "XALBUM_ROOT")
+                          (io/resource "test-albums"))))
 
 (def app
-  (build-app (data/local-storage root)))
+  (build-app storage))
